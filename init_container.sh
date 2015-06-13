@@ -1,5 +1,7 @@
 #!/bin/bash
 
+container_location="/srv/mycontainer"
+
 # Gathering system info 
 
 # check for root privileges
@@ -35,14 +37,16 @@ then
 
 	# Do something useful here...
 
-	yum -y --releasever=20 --nogpg --installroot=/srv/mycontainer --disablerepo='*' --enablerepo=fedora install systemd passwd yum fedora-release vim-minimal
+	yum -y --releasever=20 --nogpg --installroot=$container_location --disablerepo='*' --enablerepo=fedora install systemd passwd yum fedora-release vim-minimal
 
 	if [ $(echo $?) == 0 ]
 	then
-		echo "Great success!"
+		echo "Great success - Fedora minimal created!"
+		echo "Entering container!"
+		systemd-nspawn -D $container_location
+		# run something?
 	fi
 
-	echo "Finished"
 
 #elif [[ $os == *"Arch"* ]]
 else
