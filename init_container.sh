@@ -46,7 +46,7 @@ echo "         " $kernel
 echo "-------------------------------"
 
 # Creating container for Fedora
-if [[ $os == *"Fedsora"* ]]
+if [[ $os == *"Fedora"* ]]
 then
 
 	echo "         Creating a Fedora container tree in a subdirectory"
