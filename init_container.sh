@@ -2,6 +2,12 @@
 
 # Gathering system info 
 
+# check for root privileges
+if [ "$(whoami)" != "root" ]; then
+	echo "Sorry, you are not root."
+	exit 1
+fi
+
 arch=$(uname -m)
 kernel=$(uname -r)
 if [ -f /etc/lsb-release ]; then
