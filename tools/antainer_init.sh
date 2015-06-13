@@ -18,6 +18,7 @@ then
 	echo -e $print_ok "Container location set to: " $container_location
 else
 	echo -e $print_err "Wrong container location!"
+	echo "use: $0 <container location>"
 	exit 37
 fi
 
@@ -68,6 +69,7 @@ then
 			then
 				echo -e $print_ok "Great success - password changed!"
 			fi
+		rm $container_location/root/set_root_passwd.sh
 	fi
 
 #elif [[ $os == *"Arch"* ]]

@@ -17,6 +17,11 @@ then
 	container_location=$1
 	echo -e $print_ok "Container location set to: " $1
 	shift
+elif [ "$1" != "" ] && [ -d "/srv/mycontainer" ]
+then
+	# default location
+	container_location="/srv/mycontainer"
+	echo -e $print_ok "Container location set to: " $container_location
 else
 	echo -e $print_err "Wrong container location!"
 	echo "use: $0 <container location> <package1 [package2 ...]>"
