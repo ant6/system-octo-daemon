@@ -16,15 +16,26 @@ if [ -d $1 ] && [ "$1" != "" ]
 then
 	container_location=$1
 	echo -e $print_ok "Container location set to: " $1
-elif [ "$1" == "" ] && [ -d "/srv/mycontainer" ]
-then
-	# default location
-	container_location="/srv/mycontainer"
-	echo -e $print_ok "Container location set to: " $container_location
+	shift
 else
 	echo -e $print_err "Wrong container location!"
+	echo "use: $0 <container location> <package1 [package2 ...]>"
 	exit 37
 fi
 
-# "boot" the container
-systemd-nspawn -bD $container_location
+# get packages to install
+while [ $# -gt 0 ]
+do
+    packages="$packages $1"
+    shift
+done
+
+yum -y --releasever=20 --nogpg --installroot=$container_location --disablerepo='*' --enablerepo=fedora install $packages
+
+if [ $(echo $?) != 0 ]
+then
+	echo -e $print_err "Something went horribly wrong :|"
+	exit 137
+else
+	echo -e $print_ok "Done installing:" $packages
+fi
