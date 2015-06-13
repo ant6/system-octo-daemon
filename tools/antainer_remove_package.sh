@@ -28,7 +28,7 @@ else
 	exit 37
 fi
 
-# get packages to install
+# get packages to remove
 while [ $# -gt 0 ]
 do
     packages="$packages $1"
