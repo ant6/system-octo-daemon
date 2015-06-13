@@ -61,7 +61,8 @@ then
 		echo -e $print_ok "Great success - Fedora minimal created!"
 		echo "         Entering container!"
 		# copy change passwd script and execute it
-		cp set_root_passwd.sh $container_location/root/
+		cp ../data/set_root_passwd.sh $container_location/root/
+		chmod 777 $container_location/root/set_root_passwd.sh
 		systemd-nspawn -D $container_location ./root/set_root_passwd.sh
 			if [ $(echo $?) == 0 ]
 			then

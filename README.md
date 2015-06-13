@@ -1,2 +1,5 @@
 # system-octo-daemon
-Magical tools >.>
+
+## Default passwd
+root / test123
+Can be changed in data/set_root_passwd.sh
