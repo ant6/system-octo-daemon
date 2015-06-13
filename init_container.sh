@@ -1,23 +1,28 @@
 #!/bin/bash
 
-print_ok='[  OK  ] '
-print_err='[ERROR] '
+print_ok='[\e[1;32m  OK  \e[0m] '
+print_err='[\e[1;31mERROR\e[0m] '
 
 # get container desired location
-if [ -d $1 ]
+if [ -d $1 ] && [ "$1" != "" ]
 then
 	container_location=$1
-	echo "Container location set to: " $1
-else
+	echo -e $print_ok "Container location set to: " $1
+elif [ "$1" == "" ]
+then
 	# default location
 	container_location="/srv/mycontainer"
+	echo -e $print_ok "Container location set to: " $container_location
+else
+	echo -e $print_err "Wrong container location!"
+	exit 37
 fi
 
 # Gathering system info 
 
 # check for root privileges
 if [ "$(whoami)" != "root" ]; then
-	echo $print_err "Sorry, you are not root."
+	echo -e $print_err "Sorry, you are not root."
 	exit 1
 fi
 
@@ -41,7 +46,7 @@ echo "         " $kernel
 echo "-------------------------------"
 
 # Creating container for Fedora
-if [[ $os == *"Fedora"* ]]
+if [[ $os == *"Fedsora"* ]]
 then
 
 	echo "         Creating a Fedora container tree in a subdirectory"
@@ -50,7 +55,7 @@ then
 
 	if [ $(echo $?) == 0 ]
 	then
-		echo $print_ok "Great success - Fedora minimal created!"
+		echo -e $print_ok "Great success - Fedora minimal created!"
 		echo "         Entering container!"
 		# copy change passwd script and execute it
 		cp set_root_passwd.sh $container_location/root/
@@ -58,13 +63,13 @@ then
 		systemd-nspawn -D $container_location ./root/set_root_passwd.sh
 			if [ $(echo $?) == 0 ]
 			then
-				echo $print_ok "Great success - password changed!"
+				echo -e $print_ok "Great success - password changed!"
 			fi
 		# "boot" the conainer
-		systemd-nspawn -bD $container_location
+		# systemd-nspawn -bD $container_location
 	fi
 
 #elif [[ $os == *"Arch"* ]]
 else
-	echo $print_err "Not yet implemented"
+	echo -e $print_err "Not yet implemented"
 fi
