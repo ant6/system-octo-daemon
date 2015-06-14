@@ -35,7 +35,7 @@ do
     shift
 done
 
-yum -y --releasever=20 --nogpg --installroot=$container_location --disablerepo='*' --enablerepo=fedora install $packages
+dnf -y --releasever=20 --nogpg --installroot=$container_location --disablerepo='*' --enablerepo=fedora install $packages
 
 if [ $(echo $?) != 0 ]
 then

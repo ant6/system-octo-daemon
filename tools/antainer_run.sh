@@ -32,7 +32,7 @@ fi
 command=$1
 
 echo -e $print_ok "Checking if:" $command "is installed in container"
-yum -y --nogpg --installroot=$container_location list installed $command
+dnf -y --nogpg --installroot=$container_location list installed $command
 if [ $(echo $?) == 0 ]
 then
 	echo "Running:" $command "in container"
@@ -43,7 +43,7 @@ else
 	read ins
 	if [ "$ins" == "y" ]
 	then
-		yum -y --releasever=20 --nogpg --installroot=$container_location --disablerepo='*' --enablerepo=fedora install $command
+		dnf -y --releasever=20 --nogpg --installroot=$container_location --disablerepo='*' --enablerepo=fedora install $command
 	elif [ "$ins" == "r" ]
 	then
 		systemd-nspawn -D $container_location $command

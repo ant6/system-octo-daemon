@@ -55,7 +55,7 @@ then
 
 	echo "         Creating a Fedora container tree in a subdirectory"
 
-	yum -y --releasever=20 --nogpg --installroot=$container_location --disablerepo='*' --enablerepo=fedora install systemd passwd yum fedora-release vim-minimal nano
+	dnf -y --releasever=20 --nogpg --installroot=$container_location --disablerepo='*' --enablerepo=fedora install systemd passwd yum fedora-release vim-minimal nano
 
 	if [ $(echo $?) == 0 ]
 	then
@@ -64,11 +64,13 @@ then
 		# copy change passwd script and execute it
 		cp ../data/set_root_passwd.sh $container_location/root/
 		chmod 777 $container_location/root/set_root_passwd.sh
+		setenforce 0
 		systemd-nspawn -D $container_location ./root/set_root_passwd.sh
 			if [ $(echo $?) == 0 ]
 			then
 				echo -e $print_ok "Great success - password changed!"
 			fi
+		setenforce 1	
 		rm $container_location/root/set_root_passwd.sh
 	fi
 

@@ -35,7 +35,7 @@ do
     shift
 done
 
-yum -y --nogpg --installroot=$container_location remove $packages
+dnf -y --nogpg --installroot=$container_location remove $packages
 
 if [ $(echo $?) != 0 ]
 then
